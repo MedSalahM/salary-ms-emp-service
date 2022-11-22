@@ -1,5 +1,6 @@
 package com.mms.empsfp.dao;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.stereotype.Service;
 
 import com.mms.empsfp.dto.EmployeeDto;
+import com.mms.empsfp.dto.ExperienceDto;
 import com.mms.empsfp.dto.LocalDtoMapper;
 import com.mms.empsfp.repo.EmployeeRepository;
 import com.mms.empsfp.service.EmployeeService;
@@ -40,6 +42,30 @@ public class EmployeeServiceImpl implements EmployeeService{
 				               .orElseThrow(()->new RuntimeException( "emp not found "+id));
 		var toSend=localDtoMapper.toEmployeeDto(saved);
 		
+	    var eps=toSend.getExperiences();
+
+		
+        if(eps.size()>0) {
+        	 
+        	 
+        	 Comparator<ExperienceDto> c = (a,b)->{
+        		 
+        		 if(a.getGrantedAt().isBefore(b.getGrantedAt())) return 1;
+        		 
+        		 return -1;
+        	 };
+        	 
+        	 var sorted=eps.stream()
+        	 .sorted(c)
+        	 .collect(Collectors.toList());
+        	 
+        	
+        	toSend.setExperiences(sorted);
+        	 
+        	  
+         }
+		
+		
 		return toSend;
 	}
 	@Override
@@ -63,9 +89,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return null;
 	}
 	@Override
-	public void deleteAllNdms() {
+	public void deleteAll() {
 	
 		employeeRepo.deleteAll();
+		
 		
 	}
 	@Override
@@ -80,5 +107,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		return toSend;
 	}
+
 
 }

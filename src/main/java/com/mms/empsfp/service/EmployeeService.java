@@ -12,5 +12,8 @@ public interface EmployeeService {
 	EmployeeDto findEmployee(Long id);
     List<EmployeeDto> latest();	
 	List<EmployeeDto> containsName(String name);	
-    void deleteAllNdms();
+    void deleteAll();
+  
+
+    
 }

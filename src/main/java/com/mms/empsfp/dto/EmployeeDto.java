@@ -1,5 +1,8 @@
 package com.mms.empsfp.dto;
 
+import java.util.List;
+import java.util.Set;
+
 import com.mms.empsfp.model.Categorie;
 
 import lombok.AllArgsConstructor;
@@ -17,5 +20,13 @@ public class EmployeeDto {
 	private Long id;
 	private String name;
 	private Categorie categorie;
+	private List<ExperienceDto> experiences;
+	
+	
+	public void addExperience(ExperienceDto dto) {
+		
+		this.experiences.add(dto);
+		
+	}
 
 }

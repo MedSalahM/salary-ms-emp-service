@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.mms.empsfp.model.Categorie;
 import com.mms.empsfp.model.Employee;
+import com.mms.empsfp.model.Experience;
 import com.mms.empsfp.model.Groupe;
 
 
@@ -56,5 +57,16 @@ public class LocalDtoMapper {
 		return mapper.map(model, CategorieDto.class);
 	}
 	
+	
+	   public  Experience toExperienceModel(ExperienceDto dto) {
+			
+			return mapper.map(dto, Experience.class);
+		}
+		
+		public  ExperienceDto toExperienceDto(Experience model) {
+			
+			return mapper.map(model, ExperienceDto.class);
+		}
+		
 	
 }
