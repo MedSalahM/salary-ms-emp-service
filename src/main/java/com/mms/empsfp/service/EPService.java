@@ -11,8 +11,8 @@ public interface EPService {
 
 	
 	List<ExperienceDto> save(ExperienceDto ep ,Long id);
-	TextResponse latestExperienceRendred(Long id);
-
+	ExperienceDto latestExperienceRendred(Long id);
+    List<TextResponse> possibleNextEchelon(Long id);
 	
 	
 	

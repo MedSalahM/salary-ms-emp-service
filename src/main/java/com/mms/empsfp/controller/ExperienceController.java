@@ -44,17 +44,32 @@ public class ExperienceController {
 	}
 	
 	@GetMapping("latest/{id}")
-	public ResponseEntity<TextResponse> latestEp(@PathVariable Long id){
+	public ResponseEntity<ExperienceDto> latestEp(@PathVariable Long id){
 		
 
 		var latest = epService.latestExperienceRendred(id);
 		
-		ResponseEntity<TextResponse> res = new ResponseEntity<TextResponse>
+		ResponseEntity<ExperienceDto> res = new ResponseEntity<ExperienceDto>
 		                  (latest,HttpStatus.OK);
 	
 		return res;
 		
 		
 	}
+	
+	@GetMapping("next/{id}")
+	public ResponseEntity<?> nextPossibleEp(@PathVariable Long id){
+		
+
+		var latest = epService.possibleNextEchelon(id);
+		
+		ResponseEntity<List<TextResponse>> res = new ResponseEntity<List<TextResponse>>
+		                  (latest,HttpStatus.OK);
+	
+		return res;
+		
+		
+	}
+	
 
 }

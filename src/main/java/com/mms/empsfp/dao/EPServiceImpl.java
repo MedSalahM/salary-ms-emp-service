@@ -1,7 +1,10 @@
 package com.mms.empsfp.dao;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +49,11 @@ public class EPServiceImpl implements EPService{
 		
 	}
 	@Override
-	public TextResponse latestExperienceRendred(Long id) {
+	public ExperienceDto latestExperienceRendred(Long id) {
 		
 		
 	 
-		String experience="No experience found";
+		 ExperienceDto lastest = null;
 		
 		var dto = empService.findEmployee(id);
 		
@@ -61,28 +64,71 @@ public class EPServiceImpl implements EPService{
         	 
         	 Comparator<ExperienceDto> c = (a,b)->{
         		 
+        		 if(a.getGrantedAt().equals(b.getGrantedAt())) {
+        			 
+        			 return b.getLevel()-a.getLevel();
+        		 }
+        		 
         		 if(a.getGrantedAt().isBefore(b.getGrantedAt())) return 1;
+        			 
+        			
+        		 
         		 
         		 return -1;
         	 };
         	 
+        
         	 var sorted=eps.stream().filter(e->e.isRevoked()==false)
         	 .sorted(c)
+        	
         	 .collect(Collectors.toList());
         	 
         	
         	if(sorted.size()>0) {
-        		 experience=String.format("Employee possede Echelon %d obtenu le %s",
-            			 sorted.get(0).getLevel(),
-            			 sorted.get(0).getGrantedAt()
-            			 );
+        		
+        		lastest=sorted.stream().findFirst().get();
         	}
         	 
         	  
          }
+         
+         
+         
 	    
-		return TextResponse.builder()
-				.textResponse(experience).build();
+		return lastest;
 	}
+	@Override
+	public List<TextResponse> possibleNextEchelon(Long id) {
+	
+		
+		ExperienceDto dto = latestExperienceRendred(id);
+		
+		List<TextResponse> possibleDates=new ArrayList<>();
+		
+		try {
+			
+		var r =	Objects.requireNonNull(dto);
+		
+		LocalDate date = r.getGrantedAt();
+		
+		var rapide=date.plusYears(2).plusMonths(6).toString();
+		var slow=date.plusYears(3).toString();
+		
+		possibleDates.add(new TextResponse(rapide));
+		possibleDates.add(new TextResponse(slow));
+
+			
+		}
+		
+		catch(NullPointerException e) {
+			
+			return possibleDates;
+		}
+		
+		
+		
+		return possibleDates;
+	}
+	
 
 }
