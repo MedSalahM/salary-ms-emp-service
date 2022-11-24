@@ -4,24 +4,38 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
+import javax.transaction.Transactional;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
+import com.mms.empsfp.dto.BaseSalaryDetails;
+import com.mms.empsfp.dto.CategorieDto;
 import com.mms.empsfp.dto.EmployeeDto;
+import com.mms.empsfp.dto.EmployeeSalaryDetailsDto;
 import com.mms.empsfp.dto.ExperienceDto;
 import com.mms.empsfp.dto.LocalDtoMapper;
 import com.mms.empsfp.repo.EmployeeRepository;
+import com.mms.empsfp.service.EPService;
 import com.mms.empsfp.service.EmployeeService;
+import com.mms.empsfp.service.SalaryDetailsClientService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService{
 	
 	private final EmployeeRepository employeeRepo;
 	private final LocalDtoMapper localDtoMapper;
+	private final SalaryDetailsClientService salaryDetailsClientService;
+
+	
+
 	@Override
 	public EmployeeDto saveEmployee(EmployeeDto dto) {
 		
@@ -30,6 +44,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		var saved=employeeRepo.save(toSave);
 		var toSend=localDtoMapper.toEmployeeDto(saved);
 	    
+		salaryDetailsClientService.createNewSD(toSend.getId());
+		
 		
 		
 		return toSend;
@@ -105,8 +121,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	    
 		
 		
+		
+		
+		
 		return toSend;
 	}
-
-
+	
+	
 }
+	
+

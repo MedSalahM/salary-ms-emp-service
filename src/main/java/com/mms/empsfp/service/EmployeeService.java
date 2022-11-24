@@ -2,6 +2,7 @@ package com.mms.empsfp.service;
 
 import java.util.List;
 
+import com.mms.empsfp.dto.BaseSalaryDetails;
 import com.mms.empsfp.dto.EmployeeDto;
 
 public interface EmployeeService {
@@ -12,6 +13,10 @@ public interface EmployeeService {
 	EmployeeDto findEmployee(Long id);
     List<EmployeeDto> latest();	
 	List<EmployeeDto> containsName(String name);	
+
+
+
+	
     void deleteAll();
   
 

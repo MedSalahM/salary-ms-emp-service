@@ -31,10 +31,6 @@ public class ExperienceController {
 	@PostMapping("add/{emp}")
 	public ResponseEntity<List<ExperienceDto>> addNewEp(@RequestBody ExperienceDto dto , @PathVariable Long emp){
 		
-	
-		
-		
-
 		var created = epService.save(dto,emp);
 		ResponseEntity<List<ExperienceDto>> res = new ResponseEntity<List<ExperienceDto>>
 		                  (created,HttpStatus.CREATED);

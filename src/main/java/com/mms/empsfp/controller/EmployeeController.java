@@ -25,6 +25,7 @@ public class EmployeeController {
 
 	
 	private final EmployeeService employeeService;
+
 	
 	@GetMapping("latest")
 	public ResponseEntity<List<EmployeeDto>> latest(){
@@ -55,11 +56,13 @@ public class EmployeeController {
 	@PutMapping("editempl")
 	public ResponseEntity<EmployeeDto> saveEditedEmp(@RequestBody EmployeeDto dto){
 		
-
+		
 		var created = employeeService.editEmployee(dto);
 		ResponseEntity<EmployeeDto> res = new ResponseEntity<EmployeeDto>
 		                  (created,HttpStatus.ACCEPTED);
 	
+		
+		
 		return res;
 		
 	}
@@ -83,6 +86,16 @@ public class EmployeeController {
 				   .ok("deleted");
 		
 	}
+	
+	
+	/*@GetMapping("base/{id}")
+	public ResponseEntity<?> baseSalaryDetails(@PathVariable Long id){
+		
+		
+		return ResponseEntity
+				   .ok(bsService.loadBSDetails(id));
+		
+	}*/
 	
 	
 	

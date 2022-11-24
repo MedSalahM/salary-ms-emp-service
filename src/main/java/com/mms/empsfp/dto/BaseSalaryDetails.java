@@ -1,8 +1,5 @@
 package com.mms.empsfp.dto;
 
-import java.util.Set;
-
-import com.mms.empsfp.model.Categorie;
 import com.mms.empsfp.model.Groupe;
 
 import lombok.AllArgsConstructor;
@@ -14,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class CategorieDto {
+public class BaseSalaryDetails {
 
 	
-	private Long id;
-	private Groupe groupe;
-	
+	private int echelon;
+	private String group;
+	private long categorie; 
 }

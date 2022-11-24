@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mms.empsfp.dto.BaseSalaryDetails;
+import com.mms.empsfp.dto.CategorieDto;
+import com.mms.empsfp.dto.EmployeeDto;
 import com.mms.empsfp.dto.ExperienceDto;
 import com.mms.empsfp.dto.LocalDtoMapper;
 import com.mms.empsfp.dto.TextResponse;
@@ -129,6 +132,39 @@ public class EPServiceImpl implements EPService{
 		
 		return possibleDates;
 	}
+	@Override
+	public BaseSalaryDetails loadBSDetails(Long id) {
 	
+		EmployeeDto employee = empService.findEmployee(id);
+		ExperienceDto latestExperience = latestExperienceRendred(id);
+		
+		
+		CategorieDto cat = employee.getCategorie();
 
+		int echelon=0;
+		long categorie=0 ;
+		String group=null;
+		
+		if(latestExperience!=null) {
+			echelon = latestExperience.getLevel();
+		}
+		
+		if(cat!=null) {
+			
+			group = cat.getGroupe().getName();
+			categorie = cat.getId();
+			
+			
+		}
+		
+		
+		BaseSalaryDetails bsd = BaseSalaryDetails.builder()
+				                 .categorie(categorie)
+				                 .group(group)
+				                 .echelon(echelon).build();
+		
+		return bsd;
+	}
+
+	
 }

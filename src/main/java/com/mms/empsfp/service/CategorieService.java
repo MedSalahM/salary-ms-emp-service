@@ -11,4 +11,5 @@ public interface CategorieService {
 	List<CategorieDto> findByGroupeDto(String g);
 	CategorieDto findById(Long id);
 
+	
 }

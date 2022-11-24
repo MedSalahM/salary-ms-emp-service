@@ -28,8 +28,6 @@ public class Categorie {
 
 	@Id
 	private Long id;
-	private Integer pi;
-	
 	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
 	@JoinColumn(name = "groupe_id" , referencedColumnName = "name")
 	private Groupe groupe;
